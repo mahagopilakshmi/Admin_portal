@@ -3,22 +3,56 @@ import './App.css';
 import NavBar from './components/NavBar';
 import  Form  from './components/Form';
 import SideNav from './components/SideNav';
-// import { Container } from '@material-ui/core';
-import { Container, Row, Col } from 'react-bootstrap';
+
 class App extends Component {
   render() {
-
     return (
-    <div id="root">
-      <NavBar />
-     <Container>
-       <Row>
-       <Col><SideNav /></Col>
-       <Col><Form /></Col>
-       </Row>
-        </Container>
-     </div>
-      );
+      
+      <div className="App">
+           
+   <NavBar />
+    <SideNav
+        className="form"
+        title="Select a Role"
+        model={[         
+            {
+              key: "admin",
+              label: "Admin",
+              type: "select",
+              value: "accounts",
+              options: [
+                { key: "library", label: "Library", value: "Library" },
+                { key: "lab", label: "Laboratory", value: "Laboratory" },
+                { key: "COE", label: "COE", value: "COE" }
+              ]
+            },
+            {
+              key: "HOD",
+              label: "HOD",
+              type: "select",
+              value: "ECE",
+              options: [
+                { key: "ECE", label: "ECE", value: "ECE" },
+                { key: "EEE", label: "EEE", value: "EEE" },
+                { key: "Mechanical", label: "Mechanical", value: "Mechanical" }
+              ]
+            },
+            {
+              key: "Facilitator",
+              label: "Facilitator",
+              type: "select",
+              value: "John",
+              options: [
+                { key: "John", label: "John", value: "John" },
+                { key: "Robert", label: "Robert", value: "Robert" },
+                { key: "Johan", label: "Johan", value: "Johan" }
+              ]
+            }
+          ]}
+        />
+        <Form />
+      </div>
+    );
   }
 }
 

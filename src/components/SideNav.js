@@ -1,160 +1,153 @@
-import React from 'react';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-// import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import { Card } from 'react-bootstrap';
-import Select from '@material-ui/core/Select';
-import { makeStyles } from '@material-ui/core/styles';
+import React from "react";
+// import ReactDOM from "react-dom";
+import "./form.css";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  formControl: {
-    margin: theme.spacing(3),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
+export default class SideNav extends React.Component {
+  state = {};
 
-const SideNav = () => {
-  const classes = useStyles();
-  const [values, setValues] = React.useState({
-    admin: '',
-    hod: '',
-    facilitator: '',
-    learner: '',
-    technician: '',
-    name: 'hai',
-  });
-  function handleChange1(event) {
-    console.log("handle change 1");
-    console.log(event.target.value);
-    setValues(oldValues => ({
-      ...oldValues,
-      [event.target.name]: event.target.value,
-    }));
-    if(event.target.value === 20){
-      
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log("gds:p:s", nextProps.defaultValues, prevState);
+    if (
+      nextProps.defaultValues &&
+      nextProps.defaultValues.id !== prevState.id
+    ) {
+      //   Object.keys(prevState).forEach(k => {
+      //     derivedState[k] = "";
+      //   });
+      return {
+        ...nextProps.defaultValues
+      };
     }
-  }
-  function handleChange2(event) {
-    console.log("handle change 2")
-    setValues(oldValues => ({
-      ...oldValues,
-      [event.target.name]: event.target.value,
-    }));
-  }
-  function handleChange3(event) {
-    setValues(oldValues => ({
-      ...oldValues,
-      [event.target.name]: event.target.value,
-    }));
-  }
-  function handleChange4(event) {
-    setValues(oldValues => ({
-      ...oldValues,
-      [event.target.name]: event.target.value,
-    }));
-  }
-  function handleChange5(event) {
-    setValues(oldValues => ({
-      ...oldValues,
-      [event.target.name]: event.target.value,
-    }));
-  }
-  return(
-    <Card style={{ width: '18rem',marginLeft: '-25%', height: 'auto' }}>
-    <Card.Body>
-      <Card.Title>Select a Role</Card.Title>
-      <Card.Text>
-        Please select a Role and select an option from the dropdown
-      </Card.Text>
-      <form className={classes.root} autoComplete="off">
-    <FormControl className={classes.formControl}>
-    <InputLabel htmlFor="age-simple" style={{marginTop:'0px'}}>Admin</InputLabel>
-    <Select
-    value={values.admin}
-    onChange={handleChange1}
-    inputProps={{
-     name: 'admin',
-     id: 'admin',
-    }}
-    >
-    <MenuItem value={10}>Ten</MenuItem>
-    <MenuItem value={20}>Twenty</MenuItem>
-    <MenuItem value={30}>Thirty</MenuItem>
-    </Select>
-    </FormControl>
-    <FormControl className={classes.formControl}>
-    <InputLabel htmlFor="age-simple" style={{marginTop:'0px'}}>HOD</InputLabel>
-    <Select
-    value={values.hod}
-    onChange={handleChange2}
-    inputProps={{
-     name: 'hod',
-     id: 'hod',
-    }}
-    >
-    <MenuItem value={10}>Ten</MenuItem>
-    <MenuItem value={20}>Twenty</MenuItem>
-    <MenuItem value={30}>Thirty</MenuItem>
-    </Select>
-    </FormControl>
-    <FormControl className={classes.formControl}>
-    <InputLabel htmlFor="age-simple" style={{marginTop:'0px'}}>Facilitator</InputLabel>
-    <Select
-    value={values.facilitator}
-    onChange={handleChange3}
-    inputProps={{
-     name: 'facilitator',
-     id: 'facilitator',
-    }}
-    >
-    <MenuItem value={10}>Ten</MenuItem>
-    <MenuItem value={20}>Twenty</MenuItem>
-    <MenuItem value={30}>Thirty</MenuItem>
-    </Select>
-    </FormControl>
-    <FormControl className={classes.formControl}>
-    <InputLabel htmlFor="age-simple" style={{marginTop:'0px'}}>Learner</InputLabel>
-    <Select
-    value={values.learner}
-    onChange={handleChange4}
-    inputProps={{
-     name: 'learner',
-     id: 'learner',
-    }}
-    >
-    <MenuItem value={10}>Ten</MenuItem>
-    <MenuItem value={20}>Twenty</MenuItem>
-    <MenuItem value={30}>Thirty</MenuItem>
-    </Select>
-    </FormControl>
-    <FormControl className={classes.formControl}>
-    <InputLabel htmlFor="age-simple" style={{marginTop:'0px'}}>Technician</InputLabel>
-    <Select
-    value={values.technician}
-    onChange={handleChange5}
-    inputProps={{
-     name: 'technician',
-     id: 'technician',
-    }}
-    >
-    <MenuItem value={10}>Ten</MenuItem>
-    <MenuItem value={20}>Twenty</MenuItem>
-    <MenuItem value={30}>Thirty</MenuItem>
-    </Select>
-    </FormControl>
-    </form>
 
-    </Card.Body>
-    </Card>
-  )
+    console.log("no state change");
+    return null;
+  }
 
+  onSubmit = e => {
+    e.preventDefault();
+    if (this.props.onSubmit) this.props.onSubmit(this.state);
+  };
+
+  onChange = (e, key, type = "single") => {
+    //console.log(`${key} changed ${e.target.value} type ${type}`);
+    if (type === "single") {
+      this.setState(
+        {
+          [key]: e.target.value
+        },
+        () => {}
+      );
+    } else {
+      // Array of values (e.g. checkbox): TODO: Optimization needed.
+      let found = this.state[key]
+        ? this.state[key].find(d => d === e.target.value)
+        : false;
+
+      if (found) {
+        let data = this.state[key].filter(d => {
+          return d !== found;
+        });
+        this.setState({
+          [key]: data
+        });
+      } else {
+        console.log("found", key, this.state[key]);
+        // this.setState({
+        //   [key]: [e.target.value, ...this.state[key]]
+        // });
+        let others = this.state[key] ? [...this.state[key]] : [];
+        this.setState({
+          [key]: [e.target.value, ...others]
+        });
+      }
+    }
+  };
+
+  renderForm = () => {
+    let model = this.props.model;
+    let formUI = model.map(m => {
+      let key = m.key;
+      let type = m.type || "text";
+      let props = m.props || {};
+      let name = m.name;
+      let value = m.value;
+
+      let target = key;
+      value = this.state[target] || "";
+
+      let input = (
+        <input
+          {...props}
+          className="form-input"
+          type={type}
+          key={key}
+          name={name}
+          value={value}
+          onChange={e => {
+            this.onChange(e, target);
+          }}
+        />
+      );
+
+
+      if (type === "select") {
+        input = m.options.map(o => {
+          //console.log("select: ", o.value, value);
+          return (
+            <option
+              {...props}
+              className="form-input"
+              key={o.key}
+              value={o.value}
+            >
+              {o.value}
+            </option>
+          );
+        });
+
+        //console.log("Select default: ", value);
+        input = (
+          <select
+            value={value}
+            onChange={e => {
+              this.onChange(e, m.key);
+            }}
+          >
+            {input}
+          </select>
+        );
+      }
+
+
+      return (
+        <div key={"g" + key} className="form-group">
+          <label className="form-label" key={"l" + key} htmlFor={key}>
+            {m.label}
+          </label>
+          {input}
+        </div>
+      );
+    });
+    return formUI;
+  };
+
+  render() {
+    let title = this.props.title || "Select a Role";
+
+    return (
+      <div className={this.props.className}>
+        <h3 className="form-title">{title}</h3>
+        <form
+          className="dynamic-form"
+          onSubmit={e => {
+            this.onSubmit(e);
+          }}
+        >
+          {this.renderForm()}
+          
+        </form>
+      </div>
+    );
+  }
 }
-export default SideNav;
