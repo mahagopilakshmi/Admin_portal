@@ -5,7 +5,14 @@ import  Form  from './components/Form';
 import SideNav from './components/SideNav';
 
 class App extends Component {
+  state = {
+    
+  };
+
+
   render() {
+    console.log("decision flag",this.propstitle);
+    
     return (
       
       <div className="App">
@@ -49,9 +56,12 @@ class App extends Component {
               ]
             }
           ]}
+      
         />
         <Form />
+        }
       </div>
+   
     );
   }
 }

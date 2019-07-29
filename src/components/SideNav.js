@@ -6,23 +6,23 @@ export default class SideNav extends React.Component {
   state = {};
 
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    console.log("gds:p:s", nextProps.defaultValues, prevState);
-    if (
-      nextProps.defaultValues &&
-      nextProps.defaultValues.id !== prevState.id
-    ) {
-      //   Object.keys(prevState).forEach(k => {
-      //     derivedState[k] = "";
-      //   });
-      return {
-        ...nextProps.defaultValues
-      };
-    }
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   console.log("gds:p:s",  prevState);
+  //   if (
+  //     nextProps.defaultValues &&
+  //     nextProps.defaultValues.id !== prevState.id
+  //   ) {
+  //     //   Object.keys(prevState).forEach(k => {
+  //     //     derivedState[k] = "";
+  //     //   });
+  //     return {
+  //       ...nextProps.defaultValues
+  //     };
+  //   }
 
-    console.log("no state change");
-    return null;
-  }
+  //   console.log("no state change");
+  //   return null;
+  // }
 
   onSubmit = e => {
     e.preventDefault();
@@ -61,7 +61,9 @@ export default class SideNav extends React.Component {
           [key]: [e.target.value, ...others]
         });
       }
+     
     }
+    console.log("onchange state ",this.props['model'][1]['value'])
   };
 
   renderForm = () => {

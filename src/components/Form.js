@@ -193,8 +193,9 @@ class Textarea extends React.Component {
 // Create component for form
 class Form extends React.Component {
   render() {
+    console.log(this.props);
     return (
-      <form method='' action='' style={{marginTop:'-25%',marginLeft:'35%',width:'60%'}}>
+      <form method=''  action='' style={{marginTop:'-25%',marginLeft:'35%',width:'60%'}}>
         <Input
           hasLabel='true'
           htmlFor='textInput'
