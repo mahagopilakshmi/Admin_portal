@@ -5,7 +5,17 @@ import  Form  from './components/Form';
 import SideNav from './components/SideNav';
 
 class App extends Component {
+  state = {
+    role : ''
+  };
+  handleRole = (roleValue) => {
+    this.setState({role: roleValue});
+    console.log("role is ",this.state.role);
+}
+
   render() {
+    // console.log("decision flag",this.propstitle);
+    
     return (
       
       <div className="App">
@@ -19,11 +29,11 @@ class App extends Component {
               key: "admin",
               label: "Admin",
               type: "select",
-              value: "accounts",
-              options: [
-                { key: "library", label: "Library", value: "Library" },
+              value: "Accounts",
+              options: [               
+                { key: "accounts", label: "Accounts", value: "Accounts" },
                 { key: "lab", label: "Laboratory", value: "Laboratory" },
-                { key: "COE", label: "COE", value: "COE" }
+                { key: "library", label: "Library", value: "Library" },
               ]
             },
             {
@@ -49,9 +59,13 @@ class App extends Component {
               ]
             }
           ]}
+          onSelectRole={this.handleRole}
+      
         />
-        <Form />
+        <Form role={this.state.role}/>
+        
       </div>
+   
     );
   }
 }

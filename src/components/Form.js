@@ -190,44 +190,149 @@ class Textarea extends React.Component {
   }
 };
 
+
+
+  class Form1 extends React.Component {
+    render() {
+      console.log(this.props['role']);
+      // var role = this.props['role'];
+        return (
+          <form method=''  action='' style={{marginTop:'-25%',marginLeft:'35%',width:'60%'}}>
+            <Input
+              hasLabel='true'
+              htmlFor='textInput'
+              label='First Name'
+              required={true}
+              type='text'
+            />
+            
+            <Input
+              hasLabel='true'
+              htmlFor='textInput'
+              label='Last Name'
+              required={true}
+              type='text'
+            />
+            
+            <Textarea
+              hasLabel='true'
+              htmlFor='textarea'
+              label='Textarea'
+              required={true}
+            />
+           
+            
+            <Button
+              type='submit'
+              value='submit'
+              text='Submit'
+            />
+          </form>
+        )
+      }
+      
+    }
+
+
+    class Form2 extends React.Component {
+      render() {
+        console.log(this.props['role']);
+        // var role = this.props['role'];
+          return (
+            <form method=''  action='' style={{marginTop:'-25%',marginLeft:'35%',width:'60%'}}>
+              <Input
+                hasLabel='true'
+                htmlFor='textInput'
+                label='Book Name'
+                required={true}
+                type='text'
+              />
+              
+              <Input
+                hasLabel='true'
+                htmlFor='textInput'
+                label='Date Taken'
+                required={true}
+                type='text'
+              />
+              
+              <Textarea
+                hasLabel='true'
+                htmlFor='textarea'
+                label='Address'
+                required={true}
+              />
+             
+              
+              <Button
+                type='submit'
+                value='submit'
+                text='Submit'
+              />
+            </form>
+          )
+        }
+        
+      }
+
+
+      class Form3 extends React.Component {
+        render() {
+          console.log(this.props['role']);
+          // var role = this.props['role'];
+            return (
+              <form method=''  action='' style={{marginTop:'-25%',marginLeft:'35%',width:'60%'}}>
+                <Input
+                  hasLabel='true'
+                  htmlFor='textInput'
+                  label='Department'
+                  required={true}
+                  type='text'
+                />
+                
+                <Input
+                  hasLabel='true'
+                  htmlFor='textInput'
+                  label='Date Paid'
+                  required={true}
+                  type='text'
+                />
+                
+                <Textarea
+                  hasLabel='true'
+                  htmlFor='textarea'
+                  label='Payment Details'
+                  required={true}
+                />
+               
+                
+                <Button
+                  type='submit'
+                  value='submit'
+                  text='Submit'
+                />
+              </form>
+            )
+          }
+          
+        }
 // Create component for form
 class Form extends React.Component {
   render() {
-    return (
-      <form method='' action='' style={{marginTop:'-25%',marginLeft:'35%',width:'60%'}}>
-        <Input
-          hasLabel='true'
-          htmlFor='textInput'
-          label='First Name'
-          required={true}
-          type='text'
-        />
-        
-        <Input
-          hasLabel='true'
-          htmlFor='textInput'
-          label='Last Name'
-          required={true}
-          type='text'
-        />
-        
-        <Textarea
-          hasLabel='true'
-          htmlFor='textarea'
-          label='Textarea'
-          required={true}
-        />
-       
-        
-        <Button
-          type='submit'
-          value='submit'
-          text='Submit'
-        />
-      </form>
-    )
-  }
-}
+    console.log(this.props['role']);
+    const role = this.props['role'];
+    switch (role){
+      case 'Library':
+        return <Form2 />;
+      case "Laboratory":
+        return <Form1 />;
+      default:
+        return <Form3 />;
+    }
 
+    }
+    
+  }
+  
 
 export default Form;
