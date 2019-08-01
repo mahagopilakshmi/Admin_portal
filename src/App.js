@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
+// import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import NavBar from './components/NavBar';
 import  Form  from './components/Form';
 import SideNav from './components/SideNav';
+// import DateFnsUtils from '@date-io/date-fns';
 
 class App extends Component {
   state = {
@@ -13,12 +15,16 @@ class App extends Component {
     console.log("role is ",this.state.role);
 }
 
+
   render() {
     // console.log("decision flag",this.propstitle);
     
     return (
       
       <div className="App">
+          {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
+<NavBar />
+  </MuiPickersUtilsProvider> */}
            
    <NavBar />
     <SideNav

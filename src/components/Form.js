@@ -1,14 +1,60 @@
 import React from 'react';
+import DatePicker from "react-datepicker";
+ 
+import "react-datepicker/dist/react-datepicker.css";
+import { Radio,RadioGroup } from "react-radio-group";
+ 
+class Example extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      startDate: new Date()
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+ 
+  handleChange(date) {
+    this.setState({
+      startDate: date
+    });
+  }
+ 
+  render() {
+    return (
+      <DatePicker
+        selected={this.state.startDate}
+        onChange={this.handleChange}
+        showTimeSelect
+        timeFormat="HH:mm"
+    timeIntervals={15}
+    dateFormat="MMMM d, yyyy h:mm aa"
+    timeCaption="time"
+      />
+    );
+  }
+}
+
+
+
+
 
 
 // Create component for button
 class Button extends React.Component {
+  handleSubmit = (e) => {
+    const form = new FormData();
+    const deptName = document.getElementById("textInput");
+    console.log(deptName);
+    form.set('deptname', deptName)
+    console.log("event submit ", form.get('username'));
+  }
   render() {
     return (
       <fieldset style={{border:'none'}}>
         <button
           type={this.props.type || 'button'}
           value={this.props.value || null}
+          onClick={this.handleSubmit}
         >
           {this.props.text}
         </button>
@@ -109,6 +155,21 @@ class Input extends React.Component {
     );
   }
 }
+class DateField extends React.Component {
+  render() {
+    return (
+      <fieldset style={{border:'none'}}>
+        <Label
+          hasLabel={this.props.hasLabel}
+          htmlFor={this.props.htmlFor}
+          label={this.props.label}
+        />
+
+       <Example />
+      </fieldset>
+    );
+  }
+}
 
 // Create component for radio input
 // class Radio extends React.Component {
@@ -192,7 +253,7 @@ class Textarea extends React.Component {
 
 
 
-  class Form1 extends React.Component {
+  class FormLaboratory extends React.Component {
     render() {
       console.log(this.props['role']);
       // var role = this.props['role'];
@@ -234,7 +295,7 @@ class Textarea extends React.Component {
     }
 
 
-    class Form2 extends React.Component {
+    class FormLibrary extends React.Component {
       render() {
         console.log(this.props['role']);
         // var role = this.props['role'];
@@ -248,14 +309,13 @@ class Textarea extends React.Component {
                 type='text'
               />
               
-              <Input
-                hasLabel='true'
-                htmlFor='textInput'
-                label='Date Taken'
-                required={true}
-                type='text'
-              />
-              
+              <DateField
+                  hasLabel='true'
+                  htmlFor='textInput'
+                  label='Date Taken'
+                  required={true}
+                  
+                />
               <Textarea
                 hasLabel='true'
                 htmlFor='textarea'
@@ -276,7 +336,7 @@ class Textarea extends React.Component {
       }
 
 
-      class Form3 extends React.Component {
+      class FormAccounts extends React.Component {
         render() {
           console.log(this.props['role']);
           // var role = this.props['role'];
@@ -288,15 +348,18 @@ class Textarea extends React.Component {
                   label='Department'
                   required={true}
                   type='text'
+                  value=""
                 />
                 
-                <Input
+                  
+                <DateField
                   hasLabel='true'
                   htmlFor='textInput'
                   label='Date Paid'
                   required={true}
-                  type='text'
+                  
                 />
+                
                 
                 <Textarea
                   hasLabel='true'
@@ -304,10 +367,9 @@ class Textarea extends React.Component {
                   label='Payment Details'
                   required={true}
                 />
-               
                 
                 <Button
-                  type='submit'
+                  
                   value='submit'
                   text='Submit'
                 />
@@ -316,6 +378,68 @@ class Textarea extends React.Component {
           }
           
         }
+
+
+
+  class FormMechanical extends React.Component {
+    state = {
+      selectedValue: "male"
+    }
+    
+    handleChange = (e) => {
+      console.log("Gender change ",this.state.selectedValue, e);
+      this.setState({selectedValue:e});
+    }
+    render() {
+      console.log(this.props['role']);
+      // var role = this.props['role'];
+        return (
+          <form method=''  action='' style={{marginTop:'-25%',marginLeft:'35%',width:'60%'}}>
+            <Input
+              hasLabel='true'
+              htmlFor='textInput'
+              label='Student Name'
+              required={true}
+              type='text'
+            />
+          <Label
+            hasLabel="true"
+            htmlFor="genderInput"
+            label="Gender"
+          />          
+          <RadioGroup name="gender" selectedValue={this.state.selectedValue} onChange={this.handleChange} style={{marginLeft:'-60%'}}>
+            <Radio value="male" />Male
+            <Radio value="female" />Female
+            <Radio value="other" />Other
+          </RadioGroup>
+
+          
+            <DateField
+                hasLabel='true'
+                htmlFor='textInput'
+                label='Date of Birth'
+                required={true}
+                
+              />
+            <Textarea
+              hasLabel='true'
+              htmlFor='textarea'
+              label='Address'
+              required={true}
+            />
+            
+            
+            <Button
+              type='submit'
+              value='submit'
+              text='Submit'
+            />
+          </form>
+        )
+      }
+      
+    }
+    
 // Create component for form
 class Form extends React.Component {
   render() {
@@ -323,11 +447,13 @@ class Form extends React.Component {
     const role = this.props['role'];
     switch (role){
       case 'Library':
-        return <Form2 />;
+        return <FormLibrary />;
       case "Laboratory":
-        return <Form1 />;
+        return <FormLaboratory />;
+      case "Mechanical":
+        return <FormMechanical />;
       default:
-        return <Form3 />;
+        return <FormAccounts />;
     }
 
     }

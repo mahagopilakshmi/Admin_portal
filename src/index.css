@@ -672,3 +672,11 @@ caption {
 /* Layout
   =============== */
   .rowC{display:flex; flex-direction:row;}
+   .react-datepicker__input-container{
+     width:1050px !important;
+   }
+
+
+   .react-datepicker-popper{
+     left:110px ! important;
+   }
