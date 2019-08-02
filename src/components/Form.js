@@ -258,7 +258,7 @@ class Textarea extends React.Component {
       console.log(this.props['role']);
       // var role = this.props['role'];
         return (
-          <form method=''  action='' style={{marginTop:'-25%',marginLeft:'35%',width:'60%'}}>
+          <form method=''  action='' style={{marginLeft:'35%',width:'60%'}}>
             <Input
               hasLabel='true'
               htmlFor='textInput'
@@ -300,7 +300,7 @@ class Textarea extends React.Component {
         console.log(this.props['role']);
         // var role = this.props['role'];
           return (
-            <form method=''  action='' style={{marginTop:'-25%',marginLeft:'35%',width:'60%'}}>
+            <form method=''  action='' style={{marginLeft:'35%',width:'60%'}}>
               <Input
                 hasLabel='true'
                 htmlFor='textInput'
@@ -341,7 +341,7 @@ class Textarea extends React.Component {
           console.log(this.props['role']);
           // var role = this.props['role'];
             return (
-              <form method=''  action='' style={{marginTop:'-25%',marginLeft:'35%',width:'60%'}}>
+              <form method=''  action='' style={{marginLeft:'35%',width:'60%'}}>
                 <Input
                   hasLabel='true'
                   htmlFor='textInput'
@@ -394,7 +394,7 @@ class Textarea extends React.Component {
       console.log(this.props['role']);
       // var role = this.props['role'];
         return (
-          <form method=''  action='' style={{marginTop:'-25%',marginLeft:'35%',width:'60%'}}>
+          <form method=''  action='' style={{marginLeft:'35%',width:'60%'}}>
             <Input
               hasLabel='true'
               htmlFor='textInput'
@@ -443,12 +443,12 @@ class Textarea extends React.Component {
 // Create component for form
 class Form extends React.Component {
   render() {
-    console.log(this.props['role']);
-    const role = this.props['role'];
+    console.log("role is ",this.props['service']);
+    const role = this.props['service'];
     switch (role){
-      case 'Library':
+      case 'my accounts/savings':
         return <FormLibrary />;
-      case "Laboratory":
+      case "my accounts/current":
         return <FormLaboratory />;
       case "Mechanical":
         return <FormMechanical />;

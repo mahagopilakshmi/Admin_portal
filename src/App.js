@@ -1,75 +1,145 @@
 import React, { Component } from 'react';
 import './App.css';
-// import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+
 import NavBar from './components/NavBar';
-import  Form  from './components/Form';
-import SideNav from './components/SideNav';
-// import DateFnsUtils from '@date-io/date-fns';
+import SideNav, {  NavItem, NavText } from '@trendmicro/react-sidenav';
+import '@trendmicro/react-sidenav/dist/react-sidenav.css';
+import Form from "./components/Form";
 
 class App extends Component {
   state = {
-    role : ''
-  };
-  handleRole = (roleValue) => {
-    this.setState({role: roleValue});
-    console.log("role is ",this.state.role);
-}
+    service_selected : null
+  }
 
-
+  handleSelect = (e) => {
+    console.log("selected ", e);
+    this.setState({ service_selected : e });
+  }
   render() {
-    // console.log("decision flag",this.propstitle);
+  
     
     return (
       
       <div className="App">
-          {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
-<NavBar />
-  </MuiPickersUtilsProvider> */}
            
    <NavBar />
-    <SideNav
-        className="form"
-        title="Select a Role"
-        model={[         
-            {
-              key: "admin",
-              label: "Admin",
-              type: "select",
-              value: "Accounts",
-              options: [               
-                { key: "accounts", label: "Accounts", value: "Accounts" },
-                { key: "lab", label: "Laboratory", value: "Laboratory" },
-                { key: "library", label: "Library", value: "Library" },
-              ]
-            },
-            {
-              key: "HOD",
-              label: "HOD",
-              type: "select",
-              value: "ECE",
-              options: [
-                { key: "ECE", label: "ECE", value: "ECE" },
-                { key: "EEE", label: "EEE", value: "EEE" },
-                { key: "Mechanical", label: "Mechanical", value: "Mechanical" }
-              ]
-            },
-            {
-              key: "Facilitator",
-              label: "Facilitator",
-              type: "select",
-              value: "John",
-              options: [
-                { key: "John", label: "John", value: "John" },
-                { key: "Robert", label: "Robert", value: "Robert" },
-                { key: "Johan", label: "Johan", value: "Johan" }
-              ]
-            }
-          ]}
-          onSelectRole={this.handleRole}
-      
-        />
-        <Form role={this.state.role}/>
-        
+   <SideNav  style={{marginTop : "3.5%"}} defaultExpanded    onSelect={this.handleSelect}>
+    {/* <SideNav.Toggle /> */}
+    <SideNav.Nav defaultSelected="home">
+        <NavItem eventKey="home">
+            <NavText>
+                Home
+            </NavText>
+        </NavItem>
+        <NavItem eventKey="my accounts">
+            <NavText>
+                My Accounts
+            </NavText>
+            <NavItem eventKey="my accounts/current">
+                <NavText>
+                   Current Account
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="my accounts/savings">
+                <NavText>
+                    Savings Account
+                </NavText>
+            </NavItem>
+        </NavItem>
+        <NavItem eventKey="payments">
+            <NavText>
+               Payments and Transfer
+            </NavText>
+            <NavItem eventKey="payments/fund transfer">
+                <NavText>
+                   Fund Transfer
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="payments/paybills">
+                <NavText>
+                    Pay Bills
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="payments/recharge">
+                <NavText>
+                   Recharge
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="payments/railticket">
+                <NavText>
+                    Rail Ticket
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="payments/mytransactions">
+                <NavText>
+                  My Transactions
+                </NavText>
+            </NavItem>
+        </NavItem>
+        <NavItem eventKey="investments">
+            <NavText>
+               Investments and Insurance
+            </NavText>
+            <NavItem eventKey="investments/lifeinsurance">
+                <NavText>
+                   Life Insurance
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="investments/generalinsurance">
+                <NavText>
+                    General Insurance
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="investments/investonline">
+                <NavText>
+                   Invest Online
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="investments/digitalgold">
+                <NavText>
+                  Digital Gold
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="investments/investmentprofile">
+                <NavText>
+                  Investment Profile
+                </NavText>
+            </NavItem>
+        </NavItem>
+        <NavItem eventKey="exclusive offerings">
+          
+            <NavText>
+               Exclusive Offerings
+            </NavText>
+            <NavItem eventKey="exclusive offerings/cibilreport">
+                <NavText>
+                   Cibil Report
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="exclusive offerings/mymoney">
+                <NavText>
+                    My Money
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="exclusive offerings/investonline">
+                <NavText>
+                   Invest Online
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="exclusive offerings/compareandbuy">
+                <NavText>
+                 Compare and Buy
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="exclusive offerings/digitallocker">
+                <NavText>
+                  Digital Locker
+                </NavText>
+            </NavItem>
+        </NavItem>
+    </SideNav.Nav>
+</SideNav>
+       <Form service={this.state.service_selected} />
       </div>
    
     );
