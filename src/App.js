@@ -1,15 +1,36 @@
 import React, { Component } from 'react';
 import './App.css';
-
+import axios from 'axios';
 import NavBar from './components/NavBar';
 import SideNav, {  NavItem, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import Form from "./components/Form";
 
 class App extends Component {
-  state = {
-    service_selected : null
-  }
+    state = {
+        Role : '',
+        Status : '',
+        service_selected : 'home'
+    }
+    constructor(props){
+        super(props);
+        axios.get('http://localhost:9001/status')
+        .then(response => {
+            console.log(response);
+            console.log(response.data['Role']);
+            console.log(response.data['Status']);
+            this.setState({"Role":response.data['Role']});
+            this.setState({"Status":response.data['Status']});
+            console.log("State is ",this.state);
+        })
+        .catch(error => {
+            console.log(error.response)
+        });
+        
+       
+      };
+    
+  
 
   handleSelect = (e) => {
     console.log("selected ", e);
@@ -23,7 +44,7 @@ class App extends Component {
       <div className="App">
            
    <NavBar />
-   <SideNav  style={{marginTop : "3.5%"}} defaultExpanded    onSelect={this.handleSelect}>
+   <SideNav  style={{marginTop : "3.5%"}} defaultExpanded  onSelect={this.handleSelect}>
     {/* <SideNav.Toggle /> */}
     <SideNav.Nav defaultSelected="home">
         <NavItem eventKey="home">
@@ -31,115 +52,111 @@ class App extends Component {
                 Home
             </NavText>
         </NavItem>
-        <NavItem eventKey="my accounts">
+        <NavItem eventKey="reference data">
             <NavText>
-                My Accounts
+                Reference Data
             </NavText>
-            <NavItem eventKey="my accounts/current">
+            <NavItem eventKey="reference data/country">
                 <NavText>
-                   Current Account
+                   Country
                 </NavText>
             </NavItem>
-            <NavItem eventKey="my accounts/savings">
+            <NavItem eventKey="reference data/currency">
                 <NavText>
-                    Savings Account
+                    Currency
                 </NavText>
             </NavItem>
         </NavItem>
-        <NavItem eventKey="payments">
+        <NavItem eventKey="customer">
             <NavText>
-               Payments and Transfer
+               Customer
             </NavText>
-            <NavItem eventKey="payments/fund transfer">
+            <NavItem eventKey="customer/customer type">
                 <NavText>
-                   Fund Transfer
+                   Customer Type
                 </NavText>
             </NavItem>
-            <NavItem eventKey="payments/paybills">
+            <NavItem eventKey="customer/personal information">
                 <NavText>
-                    Pay Bills
+                    Personal Information
                 </NavText>
             </NavItem>
-            <NavItem eventKey="payments/recharge">
+            <NavItem eventKey="customer/organization">
                 <NavText>
-                   Recharge
+                   Organization
                 </NavText>
-            </NavItem>
-            <NavItem eventKey="payments/railticket">
-                <NavText>
-                    Rail Ticket
-                </NavText>
-            </NavItem>
-            <NavItem eventKey="payments/mytransactions">
-                <NavText>
-                  My Transactions
-                </NavText>
-            </NavItem>
+            </NavItem>  
         </NavItem>
-        <NavItem eventKey="investments">
+        <NavItem eventKey="bank">
             <NavText>
-               Investments and Insurance
+               Bank
             </NavText>
-            <NavItem eventKey="investments/lifeinsurance">
+            <NavItem eventKey="bank/lifeinsurance">
                 <NavText>
                    Life Insurance
                 </NavText>
             </NavItem>
-            <NavItem eventKey="investments/generalinsurance">
+            <NavItem eventKey="bank/generalinsurance">
                 <NavText>
                     General Insurance
                 </NavText>
             </NavItem>
-            <NavItem eventKey="investments/investonline">
+            <NavItem eventKey="bank/investonline">
                 <NavText>
                    Invest Online
                 </NavText>
             </NavItem>
-            <NavItem eventKey="investments/digitalgold">
+            <NavItem eventKey="bank/digitalgold">
                 <NavText>
                   Digital Gold
                 </NavText>
             </NavItem>
-            <NavItem eventKey="investments/investmentprofile">
+            <NavItem eventKey="bank/investmentprofile">
                 <NavText>
                   Investment Profile
                 </NavText>
             </NavItem>
         </NavItem>
-        <NavItem eventKey="exclusive offerings">
+        <NavItem eventKey="general ledger">
           
             <NavText>
-               Exclusive Offerings
+               General Ledger
             </NavText>
-            <NavItem eventKey="exclusive offerings/cibilreport">
+            <NavItem eventKey="general ledger/cibilreport">
                 <NavText>
                    Cibil Report
                 </NavText>
             </NavItem>
-            <NavItem eventKey="exclusive offerings/mymoney">
+            <NavItem eventKey="general ledger/mymoney">
                 <NavText>
                     My Money
                 </NavText>
             </NavItem>
-            <NavItem eventKey="exclusive offerings/investonline">
+            <NavItem eventKey="general ledger/investonline">
                 <NavText>
                    Invest Online
                 </NavText>
             </NavItem>
-            <NavItem eventKey="exclusive offerings/compareandbuy">
-                <NavText>
-                 Compare and Buy
-                </NavText>
-            </NavItem>
-            <NavItem eventKey="exclusive offerings/digitallocker">
-                <NavText>
-                  Digital Locker
-                </NavText>
-            </NavItem>
         </NavItem>
+        <NavItem eventKey="transaction">
+          
+          <NavText>
+             Transaction
+          </NavText>
+          <NavItem eventKey="transaction/view transaction">
+              <NavText>
+                View Transactions
+              </NavText>
+          </NavItem>
+          <NavItem eventKey="transaction/repeat transaction">
+              <NavText>
+                  Repeat Transactions
+              </NavText>
+          </NavItem>
+      </NavItem>
     </SideNav.Nav>
 </SideNav>
-       <Form service={this.state.service_selected} />
+       <Form service={this.state.service_selected} role={this.state.Role} status={this.state.Status}/>
       </div>
    
     );

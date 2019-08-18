@@ -1,0 +1,21 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+
+{
+  "Germany" : "gem",
+  "Australia" : "aus",
+  "Switzerland" : "swiss",
+  "Ireland"  : "ire",
+  "NewZealand" : "new" ,
+  "Thailand" : "thai" ,
+  "Canada" : "can" ,
+  "Japan" : "jap" ,
+  "China" : "chi" ,
+  "India" : "ind" , 
+  "Bangladesh" : "ban" ,
+  "Srilanka" : "sri" ,
+  "Malaysia" : "mal" ,
+  "Singapore" : "sin" ,
+  "Pakistan" : "pak"
+}

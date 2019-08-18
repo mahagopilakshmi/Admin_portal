@@ -692,3 +692,19 @@ caption {
 .sidenav---sidenav-subnav---1EN61 > .sidenav---sidenav-subnavitem---1cD47.sidenav---selected---1EK3y > .sidenav---navitem---9uL5T {
   cursor: pointer  ! important;
 }
+
+.sidenav---sidenav---_2tBP.sidenav---expanded---1KdUL .sidenav---sidenav-subnav---1EN61 > .sidenav---sidenav-subnavitem---1cD47::before {
+  margin-left:-120px ! important;
+}
+
+.test-class{
+  margin-left: -320px ! important;
+  width: 49% ! important;
+}
+.react-search-field-input{
+  margin-left: 0% ! important;
+}
+
+.action_b{
+  margin-left:2%;
+}

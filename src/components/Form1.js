@@ -1,31 +1,57 @@
-import React, { useState } from 'react';
-import DateFnsUtils from "@date-io/date-fns"; // choose your lib
-import {
+import React from 'react';
+import DatePicker from "react-datepicker";
  
-  DateTimePicker,
-  MuiPickersUtilsProvider
-} from "@material-ui/pickers";
+import "react-datepicker/dist/react-datepicker.css";
+import { Radio,RadioGroup } from "react-radio-group";
+import SearchField from "react-search-field";
+import axios from 'axios';
 
-function DateTime  ()  {
-  const [selectedDate, handleDateChange] = useState(new Date());
-
-  return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-     
-      <DateTimePicker value={selectedDate} onChange={handleDateChange} />
-    </MuiPickersUtilsProvider>
-  );
+class Example extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      startDate: new Date()
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+ 
+  handleChange(date) {
+    this.setState({
+      startDate: date
+    });
+  }
+ 
+  render() {
+    return (
+      <DatePicker
+        selected={this.state.startDate}
+        onChange={this.handleChange}
+        showTimeSelect
+        timeFormat="HH:mm"
+    timeIntervals={15}
+    dateFormat="MMMM d, yyyy h:mm aa"
+    timeCaption="time"
+      />
+    );
+  }
 }
 
 // Create component for button
 class Button extends React.Component {
+  handleSearch = (e) => {
+    e.preventDefault();
+    console.log("search event ",e);
+    
+    
+   
+  }
   render() {
     return (
       <fieldset style={{border:'none'}}>
         <button
           type={this.props.type || 'button'}
           value={this.props.value || null}
-          onClick={this.props.onClick}
+          onClick={this.handleSearch}
         >
           {this.props.text}
         </button>
@@ -33,64 +59,6 @@ class Button extends React.Component {
     );
   }
 };
-
-// Create component for datalist input
-// class Datalist extends React.Component {
-//   render() {
-//     // Get all options from option prop
-//     const dataOptions = this.props.options.split(', ');
-
-//     // Generate list of options
-//     const dataOptionsList = dataOptions.map((dataOption, index) => {
-//       return <option key={index} value={dataOption} />
-//     });
-
-//     return (
-//       <fieldset style={{border:'none'}}>
-//         <Label
-//           hasLabel={this.props.hasLabel}
-//           htmlFor={this.props.htmlFor}
-//           label={this.props.label}
-//         />
-        
-//         <input list={this.props.htmlFor} />
-          
-//         <datalist
-//           defaultValue=''
-//           id={this.props.htmlFor}
-//           name={this.props.name || null}
-//           required={this.props.required || null}
-//         >
-//           <option value='' disabled>Select one option</option>
-
-//           {dataOptionsList}
-//         </datalist>
-//       </fieldset>
-//     );
-//   }
-// };
-
-// // Create component for checkbox input
-// class Checkbox extends React.Component {
-//   render() {
-//     return (
-//       <fieldset style={{border:'none'}}>
-//         <label
-//           htmlFor={this.props.htmlFor}
-//           label={this.props.label}
-//         >
-//           <input
-//             id={this.props.htmlFor}
-//             name={this.props.name || null}
-//             required={this.props.required || null}
-//             type='checkbox'
-//           />
-//           {this.props.label}
-//         </label>
-//       </fieldset>
-//     );
-//   }
-// }
 
 // Create component for label
 class Label extends React.Component {
@@ -121,68 +89,26 @@ class Input extends React.Component {
           required={this.props.required || null}
           step={this.props.step || null}
           type={this.props.type || 'text'}
-          onChange={this.props.onChange}
         />
       </fieldset>
     );
   }
 }
+class DateField extends React.Component {
+  render() {
+    return (
+      <fieldset style={{border:'none'}}>
+        <Label
+          hasLabel={this.props.hasLabel}
+          htmlFor={this.props.htmlFor}
+          label={this.props.label}
+        />
 
-// Create component for radio input
-// class Radio extends React.Component {
-//   render() {
-//     return (
-//       <fieldset style={{border:'none'}}>
-//         <label
-//           htmlFor={this.props.htmlFor}
-//           label={this.props.label}
-//         >
-//           <input
-//             id={this.props.htmlFor}
-//             name={this.props.name || null}
-//             required={this.props.required || null}
-//             type='radio'
-//           />
-//           {this.props.label}
-//         </label>
-//       </fieldset>
-//     );
-//   }
-// }
-
-// // Create component for select input
-// class Select extends React.Component {
-//   render() {
-//     // Get all options from option prop
-//     const selectOptions = this.props.options.split(', ');
-
-//     // Generate list of options
-//     const selectOptionsList = selectOptions.map((selectOption, index) => {
-//       return <option key={index} value={index}>{selectOption}</option>
-//     });
-
-//     return (
-//       <fieldset style={{border:'none'}}>
-//         <Label
-//           hasLabel={this.props.hasLabel}
-//           htmlFor={this.props.htmlFor}
-//           label={this.props.label}
-//         />
-        
-//         <select
-//           defaultValue=''
-//           id={this.props.htmlFor}
-//           name={this.props.name || null}
-//           required={this.props.required || null}
-//         >
-//           <option value='' disabled>Select one option</option>
-
-//           {selectOptionsList}
-//         </select>
-//       </fieldset>
-//     );
-//   }
-// };
+       <Example />
+      </fieldset>
+    );
+  }
+}
 
 // Create component for textarea
 class Textarea extends React.Component {
@@ -201,7 +127,6 @@ class Textarea extends React.Component {
           name={this.props.name || null}
           required={this.props.required || null}
           rows={this.props.rows || null}
-          onChange={this.props.onChange}
         >
         </textarea>
       </fieldset>
@@ -211,12 +136,12 @@ class Textarea extends React.Component {
 
 
 
-  class Form1 extends React.Component {
+  class FormLaboratory extends React.Component {
     render() {
-      console.log(this.props['role']);
+      // console.log(this.props['role']);
       // var role = this.props['role'];
         return (
-          <form method=''  action='' style={{marginTop:'-25%',marginLeft:'35%',width:'60%'}}>
+          <form method=''  action='' style={{marginLeft:'35%',width:'60%'}}>
             <Input
               hasLabel='true'
               htmlFor='textInput'
@@ -242,7 +167,7 @@ class Textarea extends React.Component {
            
             
             <Button
-              type='submit'
+              type='button'
               value='submit'
               text='Submit'
             />
@@ -253,98 +178,174 @@ class Textarea extends React.Component {
     }
 
 
-    class Form2 extends React.Component {
-  
+    class FormLibrary extends React.Component {
+      state = {
+        initialItems : [],
+        items: []
+      } 
+      constructor(props){
+        super(props);
+        
+        axios.get('http://localhost:9001/codes')
+        .then(response => {
+            console.log(response.data);
+            this.setState (
+              {
+             
+                initialItems: [
+                  response.data
+                ],
+                
+              
+           }
+            ) 
+        });     
+      }
+      filterList = function(e){
+        var updatedList = this.state.initialItems;
+        updatedList = updatedList.filter(function(item){
+          return item.toLowerCase().search(
+            e.target.value.toLowerCase()) !== -1;
+        });
+        this.setState({items: updatedList});
+      }
+        onChange = (e) => {
+        console.log(e);
+        
+      }
+    
       render() {
-        console.log(this.props['role']);
+        // console.log(this.props['role']);
         // var role = this.props['role'];
           return (
-            <form method=''  action='' style={{marginTop:'-25%',marginLeft:'35%',width:'60%'}}>
-              <Input
+            <div>
+            <form method=''  action='' style={{marginLeft:'35%',width:'60%'}}>
+              <Label
                 hasLabel='true'
-                htmlFor='textInput'
-                label='Book Name'
-                required={true}
-                type='text'
+                htmlFor='searchField'
+                label='Country code'
               />
-              
-              <Input
-                hasLabel='true'
-                htmlFor='textInput'
-                label='Date Taken'
-                required={true}
-                type='text'
-              />
-              
-              <Textarea
-                hasLabel='true'
-                htmlFor='textarea'
-                label='Address'
-                required={true}
-              />
-             
-              
+              <SearchField
+                placeholder="Search..."
+                onChange={this.onChange}
+                classNames="test-class"
+              />              
               <Button
                 type='submit'
                 value='submit'
-                text='Submit'
+                text='Search'
+                onClick={this.handleSearch}
               />
             </form>
+              <List items={this.state.items}/>
+              </div>
           )
         }
         
       }
 
-
-      class Form3 extends React.Component {
-       
-        render() {
-          console.log(this.props['role']);
-          // var role = this.props['role'];
-            return (
-              <form method=''  action='' style={{marginTop:'-25%',marginLeft:'35%',width:'60%'}}>
-                <Input
-                  hasLabel='true'
-                  htmlFor='textInput'
-                  label='Department'
-                  value={this.state.department} 
-                  onChange={this.handleDepartmentChange}
-                  required={true}
-                  type='text'
-                />
-                <DateTime />
-                <Textarea
-                  hasLabel='true'
-                  htmlFor='textarea'
-                  label='Payment Details'
-                  value={this.state.paymentdetails} 
-                  onChange={this.handlePaymentDetailsChange}
-                  required={true}
-                />
-               
-                
-                <Button
-                  type='button'
-                  text='Submit'
-                  onClick={this.handleForm3Submit}
-                />
-              </form>
-            )
-          }
-          
+    class List extends React.Component{
+        render(){
+          return (
+            <ul className="list-group">
+            {
+              this.props.items.map(function(item) {
+                return <li className="list-group-item" data-category={item} key={item}>{item}</li>
+              })
+             }
+            </ul>
+          )  
         }
+      }
+      
+  class FormMechanical extends React.Component {
+    state = {
+      selectedValue: "male"
+    }
+    
+    handleChange = (e) => {
+      console.log("Gender change ",this.state.selectedValue, e);
+      this.setState({selectedValue:e});
+    }
+    render() {
+      // console.log(this.props['role']);
+      // var role = this.props['role'];
+        return (
+          <form method=''  action='' style={{marginLeft:'35%',width:'60%'}}>
+            <Input
+              hasLabel='true'
+              htmlFor='textInput'
+              label='Student Name'
+              required={true}
+              type='text'
+            />
+          <Label
+            hasLabel="true"
+            htmlFor="genderInput"
+            label="Gender"
+          />          
+          <RadioGroup name="gender" selectedValue={this.state.selectedValue} onChange={this.handleChange} style={{marginLeft:'-60%'}}>
+            <Radio value="male" />Male
+            <Radio value="female" />Female
+            <Radio value="other" />Other
+          </RadioGroup>
+
+          
+            <DateField
+                hasLabel='true'
+                htmlFor='textInput'
+                label='Date of Birth'
+                required={true}
+                
+              />
+            <Textarea
+              hasLabel='true'
+              htmlFor='textarea'
+              label='Address'
+              required={true}
+            />
+            
+            
+            <Button
+              type='submit'
+              value='submit'
+              text='Submit'
+            />
+          </form>
+        )
+      }
+      
+    }
+    
+
+
+    class FormDefault extends React.Component {
+      
+      render() {
+        console.log(this.props['role']);
+        
+          return (<h1>Home Page</h1>
+                     )
+        }
+        
+      }
 // Create component for form
 class Form extends React.Component {
   render() {
-    console.log(this.props['role']);
+    console.log("role is ",this.props['service']);
+    const service = this.props['service'];
     const role = this.props['role'];
-    switch (role){
-      case 'Library':
-        return <Form2 />;
-      case "Laboratory":
-        return <Form1 />;
+    const status = this.props['status'];
+    console.log("status ",status+" "+role+" "+service);
+    switch (service){
+      case 'reference data/country':
+        return <FormLibrary />;
+      case "reference data/currency":
+        return <FormLaboratory />;
+      case "customer/customer type":
+        return <FormMechanical />;
       default:
-        return <Form3 />;
+        return <FormDefault />;
     }
 
     }

@@ -3,7 +3,8 @@ import DatePicker from "react-datepicker";
  
 import "react-datepicker/dist/react-datepicker.css";
 import { Radio,RadioGroup } from "react-radio-group";
- 
+import axios from 'axios';
+
 class Example extends React.Component {
   constructor(props) {
     super(props);
@@ -34,19 +35,14 @@ class Example extends React.Component {
   }
 }
 
-
-
-
-
-
 // Create component for button
 class Button extends React.Component {
-  handleSubmit = (e) => {
-    const form = new FormData();
-    const deptName = document.getElementById("textInput");
-    console.log(deptName);
-    form.set('deptname', deptName)
-    console.log("event submit ", form.get('username'));
+  handleSearch = (e) => {
+    e.preventDefault();
+    console.log("search event ",e);
+    
+    
+   
   }
   render() {
     return (
@@ -54,7 +50,7 @@ class Button extends React.Component {
         <button
           type={this.props.type || 'button'}
           value={this.props.value || null}
-          onClick={this.handleSubmit}
+          onClick={this.handleSearch}
         >
           {this.props.text}
         </button>
@@ -62,64 +58,6 @@ class Button extends React.Component {
     );
   }
 };
-
-// Create component for datalist input
-// class Datalist extends React.Component {
-//   render() {
-//     // Get all options from option prop
-//     const dataOptions = this.props.options.split(', ');
-
-//     // Generate list of options
-//     const dataOptionsList = dataOptions.map((dataOption, index) => {
-//       return <option key={index} value={dataOption} />
-//     });
-
-//     return (
-//       <fieldset style={{border:'none'}}>
-//         <Label
-//           hasLabel={this.props.hasLabel}
-//           htmlFor={this.props.htmlFor}
-//           label={this.props.label}
-//         />
-        
-//         <input list={this.props.htmlFor} />
-          
-//         <datalist
-//           defaultValue=''
-//           id={this.props.htmlFor}
-//           name={this.props.name || null}
-//           required={this.props.required || null}
-//         >
-//           <option value='' disabled>Select one option</option>
-
-//           {dataOptionsList}
-//         </datalist>
-//       </fieldset>
-//     );
-//   }
-// };
-
-// // Create component for checkbox input
-// class Checkbox extends React.Component {
-//   render() {
-//     return (
-//       <fieldset style={{border:'none'}}>
-//         <label
-//           htmlFor={this.props.htmlFor}
-//           label={this.props.label}
-//         >
-//           <input
-//             id={this.props.htmlFor}
-//             name={this.props.name || null}
-//             required={this.props.required || null}
-//             type='checkbox'
-//           />
-//           {this.props.label}
-//         </label>
-//       </fieldset>
-//     );
-//   }
-// }
 
 // Create component for label
 class Label extends React.Component {
@@ -171,62 +109,6 @@ class DateField extends React.Component {
   }
 }
 
-// Create component for radio input
-// class Radio extends React.Component {
-//   render() {
-//     return (
-//       <fieldset style={{border:'none'}}>
-//         <label
-//           htmlFor={this.props.htmlFor}
-//           label={this.props.label}
-//         >
-//           <input
-//             id={this.props.htmlFor}
-//             name={this.props.name || null}
-//             required={this.props.required || null}
-//             type='radio'
-//           />
-//           {this.props.label}
-//         </label>
-//       </fieldset>
-//     );
-//   }
-// }
-
-// // Create component for select input
-// class Select extends React.Component {
-//   render() {
-//     // Get all options from option prop
-//     const selectOptions = this.props.options.split(', ');
-
-//     // Generate list of options
-//     const selectOptionsList = selectOptions.map((selectOption, index) => {
-//       return <option key={index} value={index}>{selectOption}</option>
-//     });
-
-//     return (
-//       <fieldset style={{border:'none'}}>
-//         <Label
-//           hasLabel={this.props.hasLabel}
-//           htmlFor={this.props.htmlFor}
-//           label={this.props.label}
-//         />
-        
-//         <select
-//           defaultValue=''
-//           id={this.props.htmlFor}
-//           name={this.props.name || null}
-//           required={this.props.required || null}
-//         >
-//           <option value='' disabled>Select one option</option>
-
-//           {selectOptionsList}
-//         </select>
-//       </fieldset>
-//     );
-//   }
-// };
-
 // Create component for textarea
 class Textarea extends React.Component {
   render() {
@@ -255,7 +137,7 @@ class Textarea extends React.Component {
 
   class FormLaboratory extends React.Component {
     render() {
-      console.log(this.props['role']);
+      // console.log(this.props['role']);
       // var role = this.props['role'];
         return (
           <form method=''  action='' style={{marginLeft:'35%',width:'60%'}}>
@@ -284,7 +166,7 @@ class Textarea extends React.Component {
            
             
             <Button
-              type='submit'
+              type='button'
               value='submit'
               text='Submit'
             />
@@ -296,91 +178,108 @@ class Textarea extends React.Component {
 
 
     class FormLibrary extends React.Component {
-      render() {
-        console.log(this.props['role']);
-        // var role = this.props['role'];
-          return (
-            <form method=''  action='' style={{marginLeft:'35%',width:'60%'}}>
-              <Input
-                hasLabel='true'
-                htmlFor='textInput'
-                label='Book Name'
-                required={true}
-                type='text'
-              />
-              
-              <DateField
-                  hasLabel='true'
-                  htmlFor='textInput'
-                  label='Date Taken'
-                  required={true}
-                  
-                />
-              <Textarea
-                hasLabel='true'
-                htmlFor='textarea'
-                label='Address'
-                required={true}
-              />
-             
-              
-              <Button
-                type='submit'
-                value='submit'
-                text='Submit'
-              />
-            </form>
-          )
+      state = {
+        results: []
+      }
+    
+     handleInputChange = () => {
+        var codes;
+        axios.get('http://localhost:9001/codes')
+        .then(response => {
+            console.log(response.data); 
+            codes = response.data
+        });  
+        const that = this;  
+        const res = [];
+        console.log("Search value is ",this.search.value);
+        if(that.search.value === ""){
+          document.getElementById("action_buttons").style.display = "none";
         }
+        else{
+          setTimeout(function(){
+            console.log("COdes are ",typeof(codes));
+           const entries = Object.entries(codes);
+           
+           for( const [key, code] of entries){
+             var len = that.search.value.length;
+              const tempCode = code;
+            console.log("inside for loop ",tempCode,that.search.value, that.search.value.length,tempCode.slice(0,len));
+            if(tempCode.slice(0,len) === that.search.value){
+              console.log("matched");
+              res.push(key); 
+              console.log("res array ",res);
+              that.setState(
+               {
+                 results: res
+               }
+             )
+            }
+          
+           }
+          
+             
+          },100);
+        }
+
+      
+      }
+    
+      render() {
+        return (
+          <form>
+            <label style={{marginLeft:'1%',marginTop:'180px'}} htmlFor="contry_code">Country Code</label>
+            <input
+              id="country"
+              style={{marginTop:"20px",width:"300px",height:"30px"}}
+              placeholder="Search for..."
+              ref={input => this.search = input}
+              onChange={this.handleInputChange}
+            />
+          
+            <Suggestions results={this.state.results}/>
+            <div id="action_buttons" style={{display:"none"}}>
+              <button className="action_b" type="button" value="Create">Create</button>
+              <button className="action_b" type="button" value="Update">Update</button>
+              <button className="action_b" type="button" value="View">View</button>
+              <button className="action_b" type="button" value="Delete">Delete</button>
+            </div>
+          </form>
+        )
+      }
         
       }
 
-
-      class FormAccounts extends React.Component {
-        render() {
-          console.log(this.props['role']);
-          // var role = this.props['role'];
-            return (
-              <form method=''  action='' style={{marginLeft:'35%',width:'60%'}}>
-                <Input
-                  hasLabel='true'
-                  htmlFor='textInput'
-                  label='Department'
-                  required={true}
-                  type='text'
-                  value=""
-                />
-                
-                  
-                <DateField
-                  hasLabel='true'
-                  htmlFor='textInput'
-                  label='Date Paid'
-                  required={true}
-                  
-                />
-                
-                
-                <Textarea
-                  hasLabel='true'
-                  htmlFor='textarea'
-                  label='Payment Details'
-                  required={true}
-                />
-                
-                <Button
-                  
-                  value='submit'
-                  text='Submit'
-                />
-              </form>
-            )
+      class Suggestions extends React.Component{
+        handleCountrySelect = (e) => {
+          console.log("selected country is ",e.target.innerHTML);
+          console.log(document.getElementById("country"));
+          var country = document.getElementById("country");
+          country.value = e.target.innerHTML;
+          if(country.value !== null){
+            document.getElementById("action_buttons").style.display = "block";
+          
           }
+         
           
         }
+        render(){
+          console.log("props value type",this.props['results']);
+          // const options = "HEllo";
+          const options = this.props['results'].map(r=> (
+            <li key={r} style={{cursor:"pointer"}} onClick={this.handleCountrySelect}>
+              {r}
+            </li>
+          ))
+          
+          return <ul id="country_list" style={{marginTop:"1%",display:"block"}}>{options}</ul>
+        }
+       
+      }
+     
+      
+  
 
-
-
+      
   class FormMechanical extends React.Component {
     state = {
       selectedValue: "male"
@@ -391,7 +290,7 @@ class Textarea extends React.Component {
       this.setState({selectedValue:e});
     }
     render() {
-      console.log(this.props['role']);
+      // console.log(this.props['role']);
       // var role = this.props['role'];
         return (
           <form method=''  action='' style={{marginLeft:'35%',width:'60%'}}>
@@ -440,20 +339,35 @@ class Textarea extends React.Component {
       
     }
     
+
+
+    class FormDefault extends React.Component {
+      
+      render() {
+        console.log(this.props['role']);
+        
+          return (<h1>Home Page</h1>
+                     )
+        }
+        
+      }
 // Create component for form
 class Form extends React.Component {
   render() {
     console.log("role is ",this.props['service']);
-    const role = this.props['service'];
-    switch (role){
-      case 'my accounts/savings':
+    const service = this.props['service'];
+    const role = this.props['role'];
+    const status = this.props['status'];
+    console.log("status ",status+" "+role+" "+service);
+    switch (service){
+      case 'reference data/country':
         return <FormLibrary />;
-      case "my accounts/current":
+      case "reference data/currency":
         return <FormLaboratory />;
-      case "Mechanical":
+      case "customer/customer type":
         return <FormMechanical />;
       default:
-        return <FormAccounts />;
+        return <FormDefault />;
     }
 
     }
